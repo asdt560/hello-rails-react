@@ -87,6 +87,7 @@ Install this project with:
   bundle install
   yarn install
   rails db:migrate
+  rails db:seed
 ```
 
 ### Usage
