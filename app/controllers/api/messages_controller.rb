@@ -5,7 +5,7 @@ class Api::MessagesController < ApplicationController
     @message = Message.offset(random_offset).first
     respond_to do |format|
       format.html
-      format.json { render :json => @message }
+      format.json { render json: @message }
     end
   end
 end
