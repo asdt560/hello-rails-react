@@ -1,34 +1,30 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-const getGreetingData = createAsyncThunk('/getGreeting', async () => {
-  const resp = await fetch("api/messages");
-  let data = await resp.json()
-  return data;
-});
+const getGreetingData = createAsyncThunk(
+  'messages/getGreetingData',
+  async () => {
+    const resp = await fetch("api/messages")
+      .then((resp) => {
+        return resp.json();
+      })
+      .then((result) => {
+        return result;
+      });
+    return resp;
+  }
+);
 
 const greetingSlice = createSlice({
   name: 'greeting',
   initialState: {
-    loading: false,
-    text: 'empty',
-    error: '',
+    success: false,
+    text: '',
   },
   extraReducers: (builder) => {
-    builder.addCase(getGreetingData.pending, (state) => ({
-      ...state,
-      loading: true,
-    }));
-    builder.addCase(getGreetingData.fulfilled, (state, action) => ({
-      ...state,
-      loading: false,
-      text: action.text,
-    }));
-    builder.addCase(getGreetingData.rejected, (state, action) => ({
-      ...state,
-      loading: false,
-      text: '',
-      error: action.error.message,
-    }));
+    builder.addCase(getGreetingData.fulfilled, (state, action) => {
+      state.success = true;
+      state.text = action.payload.text;
+    });
   },
 });
 

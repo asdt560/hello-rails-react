@@ -1,22 +1,22 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getRandomGreeting, getGreetingData } from '../redux/greeting/greetingSlice';
+import { getGreetingData } from '../redux/greeting/greetingSlice';
 
 function Greeting() {
-
   const dispatch = useDispatch();
-  const object = useSelector((state) => state.greetingReducer);
+  const success = useSelector((state) => state.greetingReducer.success);
   const greeting = useSelector((state) => state.greetingReducer.text);
-  useEffect(() => {
-    if(greeting === undefined) {
-      dispatch(getGreetingData());
-    }
-  }, []);
-  console.log(object)
+  let content;
+  if (success === true) {
+    content = greeting;
+  }
   return (
     <div>
-      <h1>Hello, this is the randomized greeting:</h1>
-      <h2>{greeting}</h2>
+      <h1>Hello, this is the randomized greeting generator:</h1>
+      <button type='button' onClick={() => dispatch(getGreetingData())}>
+        Generate Greeting
+      </button>
+      <h2>{content}</h2>
     </div>
   )
 }
